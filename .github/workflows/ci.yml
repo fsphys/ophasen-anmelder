@@ -129,9 +129,3 @@ jobs:
         run: |
           rm -rf /tmp/.buildx-cache
           mv /tmp/.buildx-cache-new /tmp/.buildx-cache
-
-      - name: Check manifest
-        if: ${{ github.event_name != 'pull_request' }}
-        run: |
-          docker buildx imagetools inspect ${{ env.IMAGE_NAME }}:${{ steps.docker_meta.outputs.version }}
-          docker buildx imagetools inspect ghcr.io/${{ github.repository_owner }}/ophasen-anmelder:${{ steps.docker_meta.outputs.version }}
