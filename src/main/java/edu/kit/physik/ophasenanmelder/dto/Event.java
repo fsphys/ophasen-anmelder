@@ -11,26 +11,40 @@ import java.util.UUID;
 
 @Data
 @AllArgsConstructor
-public class Institute implements Validatable {
+public class Event implements Validatable {
 
     private final UUID id;
+    private final UUID eventTypeId;
     private final String name;
     private final String description;
     private final Integer maxParticipants;
     private final OffsetDateTime startTime;
+    private final OffsetDateTime registrationStartTime;
+    private final OffsetDateTime registrationEndTime;
 
     @JsonCreator
-    public Institute
-            (final String name, final String description, final Integer maxParticipants, final OffsetDateTime startTime) {
+    public Event(final UUID eventTypeId,
+                 final String name,
+                 final String description,
+                 final Integer maxParticipants,
+                 final OffsetDateTime startTime,
+                 final OffsetDateTime registrationStartTime,
+                 final OffsetDateTime registrationEndTime) {
         this.id = null;
+        this.eventTypeId = eventTypeId;
         this.name = name;
         this.description = description;
         this.maxParticipants = maxParticipants;
         this.startTime = startTime;
+        this.registrationStartTime = registrationStartTime;
+        this.registrationEndTime = registrationEndTime;
     }
 
     @Override
     public void validate() throws ValidationException {
+        if (this.eventTypeId == null)
+            throw new ValidationException("eventTypeId", "NOT_NULL");
+
         if (this.name == null || this.name.isBlank())
             throw new ValidationException("name", "NOT_BLANK");
 
@@ -45,5 +59,14 @@ public class Institute implements Validatable {
 
         if (this.startTime == null)
             throw new ValidationException("startTime", "NOT_NULL");
+
+        if (this.registrationStartTime == null)
+            throw new ValidationException("startTime", "NOT_NULL");
+
+        if (this.registrationEndTime == null)
+            throw new ValidationException("startTime", "NOT_NULL");
+
+        if (this.registrationEndTime.isBefore(this.registrationStartTime))
+            throw new ValidationException("registrationEndTime", "AFTER_REGISTRATION_START_TIME");
     }
 }

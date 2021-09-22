@@ -17,12 +17,12 @@ import javax.persistence.Table;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "institute_participations")
-public class InstituteParticipationModel extends TableModelAutoId {
+@Table(name = "event_participations")
+public class EventParticipationModel extends TableModelAutoId {
 
     @ManyToOne
-    @JoinColumn(name = "institute_id", nullable = false)
-    private InstituteModel institute;
+    @JoinColumn(name = "event_id", nullable = false)
+    private EventModel event;
 
     @Column(name = "surname", nullable = false)
     private String surname;

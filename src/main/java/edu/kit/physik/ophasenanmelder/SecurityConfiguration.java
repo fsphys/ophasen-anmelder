@@ -9,7 +9,6 @@ import org.springframework.security.config.annotation.web.reactive.EnableWebFlux
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.core.userdetails.MapReactiveUserDetailsService;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 import reactor.core.publisher.Mono;
 
@@ -29,16 +28,16 @@ public class SecurityConfiguration {
                 .pathMatchers(HttpMethod.HEAD, "/", "/swagger-ui", "/webjars/**", "/v3/api-docs/**").permitAll()
                 .pathMatchers(HttpMethod.OPTIONS, "/", "/swagger-ui", "/webjars/**", "/v3/api-docs/**").permitAll()
 
-                .pathMatchers(HttpMethod.GET, "/institute/participation").authenticated()
+                .pathMatchers(HttpMethod.GET, "/event/participation").authenticated()
 
-                .pathMatchers(HttpMethod.GET, "/institute/**").permitAll()
-                .pathMatchers(HttpMethod.HEAD, "/institute/**").permitAll()
-                .pathMatchers(HttpMethod.OPTIONS, "/institute/**").permitAll()
+                .pathMatchers(HttpMethod.GET, "/event/**").permitAll()
+                .pathMatchers(HttpMethod.HEAD, "/event/**").permitAll()
+                .pathMatchers(HttpMethod.OPTIONS, "/event/**").permitAll()
 
-                .pathMatchers(HttpMethod.POST, "/institute/participation").permitAll()
-                .pathMatchers(HttpMethod.DELETE, "/institute/participation/**").permitAll()
+                .pathMatchers(HttpMethod.POST, "/event/participation").permitAll()
+                .pathMatchers(HttpMethod.DELETE, "/event/participation/**").permitAll()
 
-                .pathMatchers("/institute/**").authenticated()
+                .pathMatchers("/event/**").authenticated()
 
                 .pathMatchers(HttpMethod.GET, "/actuator/health").permitAll()
 

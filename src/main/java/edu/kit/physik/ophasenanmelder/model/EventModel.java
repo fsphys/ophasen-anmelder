@@ -8,6 +8,8 @@ import net.getnova.framework.jpa.model.TableModelAutoId;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.time.OffsetDateTime;
 
@@ -16,8 +18,12 @@ import java.time.OffsetDateTime;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "institutes")
-public class InstituteModel extends TableModelAutoId {
+@Table(name = "events")
+public class EventModel extends TableModelAutoId {
+
+    @ManyToOne
+    @JoinColumn(name = "event_type_id", nullable = false)
+    private EventTypeModel eventType;
 
     @Column(name = "name", nullable = false, unique = true)
     private String name;
@@ -30,4 +36,10 @@ public class InstituteModel extends TableModelAutoId {
 
     @Column(name = "startTime", nullable = false)
     private OffsetDateTime startTime;
+
+    @Column(name = "registrationStartTime", nullable = false)
+    private OffsetDateTime registrationStartTime;
+
+    @Column(name = "registrationEndTime", nullable = false)
+    private OffsetDateTime registrationEndTime;
 }
