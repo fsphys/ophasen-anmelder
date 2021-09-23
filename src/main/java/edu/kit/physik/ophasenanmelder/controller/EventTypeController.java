@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.UUID;
 
-@Tag(name = "Event Type Participation")
+@Tag(name = "Event Type")
 @RequestMapping("/event/type")
 public interface EventTypeController extends CrudController<EventType, UUID> {
 }
