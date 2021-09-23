@@ -1,14 +1,14 @@
-ARG JAVA_VERSION=16
+ARG JAVA_VERSION=15
 ARG JVM_IMPL=hotspot
 
-FROM adoptopenjdk:${JAVA_VERSION}-jre-${JVM_IMPL} AS extractor
+FROM adoptopenjdk:${JAVA_VERSION}-jre-${JVM_IMPL}-bionic AS extractor
 
 WORKDIR /src
 
 COPY ./dist/ophasen-anmelder*.jar ophasen-anmelder.jar
 RUN java -Djarmode=layertools -jar ophasen-anmelder.jar extract
 
-FROM adoptopenjdk:${JAVA_VERSION}-jre-${JVM_IMPL}
+FROM adoptopenjdk:${JAVA_VERSION}-jre-${JVM_IMPL}-bionic
 
 ENV HTTP_PORT=8080
 ENV MANAGEMENT_PORT=8081

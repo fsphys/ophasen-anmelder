@@ -1,7 +1,7 @@
-ARG JAVA_VERSION=16
+ARG JAVA_VERSION=15
 ARG JVM_IMPL=hotspot
 
-FROM adoptopenjdk:${JAVA_VERSION}-jdk-${JVM_IMPL} AS builder
+FROM adoptopenjdk:${JAVA_VERSION}-jdk-${JVM_IMPL}-bionic AS builder
 
 RUN set -o errexit -o nounset \
  && apt-get update \
@@ -13,14 +13,14 @@ WORKDIR /src
 RUN chmod +x ./gradlew \
     && ./gradlew :bootJar --stacktrace --no-daemon
 
-FROM adoptopenjdk:${JAVA_VERSION}-jre-${JVM_IMPL} AS extractor
+FROM adoptopenjdk:${JAVA_VERSION}-jre-${JVM_IMPL}-bionic AS extractor
 
 WORKDIR /src
 
 COPY --from=builder build/libs/${SERVICE_NAME}*.jar ophasen-anmelder.jar
 RUN java -Djarmode=layertools -jar ophasen-anmelder.jar extract
 
-FROM adoptopenjdk:${JAVA_VERSION}-jre-${JVM_IMPL}
+FROM adoptopenjdk:${JAVA_VERSION}-jre-${JVM_IMPL}-bionic
 
 ENV HTTP_PORT=8080
 ENV MANAGEMENT_PORT=8081
