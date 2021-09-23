@@ -34,10 +34,9 @@ public class EventParticipationServiceImpl extends AbstractCommonIdCrudService<E
 
             deine Anmeldung bei "%s %s" war erfolgreich.
             Benutze diesen Link, um dich abzumelden: https://diesisteintollerlink.edu/abmelden/%s
-            Viel Spaß bei der Veranstaltung.         
+            Viel Spaß bei der Veranstaltung.
 
             %s %s
-
             %s
 
             Dies ist eine automatisch generierte Nachricht, bitte antworte nicht darauf.
@@ -107,7 +106,7 @@ public class EventParticipationServiceImpl extends AbstractCommonIdCrudService<E
     public void sendRegistrationMail(final EventParticipation participation) throws UnsupportedEncodingException, MessagingException {
         final MimeMessage message = this.mailSender.createMimeMessage();
         message.addFrom(new Address[]{new InternetAddress(this.mailProperties.getUsername(),
-                this.mailProperties.getProperties().getOrDefault("sender", "Event Management"),
+                this.mailProperties.getProperties().get("sender"),
                 StandardCharsets.UTF_8.name())});
         message.setSubject("Deine Anmeldung wurde bestätigt");
         message.setRecipients(Message.RecipientType.TO, participation.getMail());
@@ -132,7 +131,7 @@ public class EventParticipationServiceImpl extends AbstractCommonIdCrudService<E
     public void sendUnRegistrationMail(final EventParticipationModel participation) throws UnsupportedEncodingException, MessagingException {
         final MimeMessage message = this.mailSender.createMimeMessage();
         message.addFrom(new Address[]{new InternetAddress(this.mailProperties.getUsername(),
-                this.mailProperties.getProperties().getOrDefault("sender", "Event Management"),
+                this.mailProperties.getProperties().get("sender"),
                 StandardCharsets.UTF_8.name())});
         message.setSubject("Deine Abmeldung wurde bestätigt");
         message.setRecipients(Message.RecipientType.TO, participation.getMail());
