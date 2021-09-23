@@ -5,6 +5,7 @@ import edu.kit.physik.ophasenanmelder.dto.Event;
 import edu.kit.physik.ophasenanmelder.dto.EventParticipation;
 import edu.kit.physik.ophasenanmelder.dto.EventType;
 import edu.kit.physik.ophasenanmelder.exception.EventParticipationLimitExceededException;
+import edu.kit.physik.ophasenanmelder.exception.EventRegistrationNotOpenException;
 import edu.kit.physik.ophasenanmelder.model.EventParticipationModel;
 import edu.kit.physik.ophasenanmelder.repository.EventParticipationRepository;
 import edu.kit.physik.ophasenanmelder.services.EventParticipationService;
@@ -24,6 +25,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
+import java.time.OffsetDateTime;
 import java.util.UUID;
 
 @Service
@@ -72,7 +74,14 @@ public class EventParticipationServiceImpl extends AbstractCommonIdCrudService<E
     public EventParticipation save(final EventParticipation dto) {
         ValidationUtils.validate(dto);
 
-        if (eventService.findById(dto.getEventId()).getMaxParticipants() <= countParticipants(dto.getEventId()))
+        final Event event = eventService.findById(dto.getEventId());
+
+        final OffsetDateTime now = OffsetDateTime.now();
+
+        if (now.isBefore(event.getRegistrationStartTime()) || now.isAfter(event.getRegistrationEndTime()))
+            throw new EventRegistrationNotOpenException();
+
+        if (event.getMaxParticipants() <= countParticipants(dto.getEventId()))
             throw new EventParticipationLimitExceededException();
 
         final EventParticipation eventParticipation = this.converter.toDto(this.repository.save(this.converter.toModel(dto)));
