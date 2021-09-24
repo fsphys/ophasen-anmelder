@@ -38,7 +38,9 @@ public class EventParticipationServiceImpl extends AbstractCommonIdCrudService<E
             Benutze diesen Link, um dich abzumelden: https://diesisteintollerlink.edu/abmelden/%s
             Viel Spaß bei der Veranstaltung.
 
+
             %s %s
+
             %s
 
             Dies ist eine automatisch generierte Nachricht, bitte antworte nicht darauf.
