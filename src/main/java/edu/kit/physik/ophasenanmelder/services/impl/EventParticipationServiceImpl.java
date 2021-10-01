@@ -77,10 +77,11 @@ public class EventParticipationServiceImpl extends AbstractCommonIdCrudService<E
         ValidationUtils.validate(dto);
 
         final Event event = eventService.findById(dto.getEventId());
+        final EventType eventType = eventTypeService.findById(event.getEventTypeId());
 
         final OffsetDateTime now = OffsetDateTime.now();
 
-        if (now.isBefore(event.getRegistrationStartTime()) || now.isAfter(event.getRegistrationEndTime()))
+        if (now.isBefore(eventType.getRegistrationStartTime()) || now.isAfter(eventType.getRegistrationEndTime()))
             throw new EventRegistrationNotOpenException();
 
         if (event.getMaxParticipants() <= countParticipants(dto.getEventId()))

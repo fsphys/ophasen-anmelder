@@ -10,17 +10,26 @@ public class EventTypeConverter implements Converter<EventTypeModel, EventType> 
 
     @Override
     public EventTypeModel toModel(final EventType dto) {
-        return new EventTypeModel(dto.getName());
+        return new EventTypeModel(dto.getName(),
+                dto.getRegistrationStartTime(),
+                dto.getRegistrationEndTime());
     }
 
     @Override
     public EventType toDto(final EventTypeModel model) {
-        return new EventType(model.getId(), model.getName());
+        return new EventType(
+                model.getId(),
+                model.getName(),
+                model.getRegistrationStartTime(),
+                model.getRegistrationEndTime()
+        );
     }
 
     @Override
     public void override(final EventTypeModel model, final EventType dto) {
         model.setName(dto.getName());
+        model.setRegistrationStartTime(dto.getRegistrationStartTime());
+        model.setRegistrationEndTime(dto.getRegistrationEndTime());
     }
 
     @Override

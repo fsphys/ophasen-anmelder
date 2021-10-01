@@ -6,6 +6,7 @@ import lombok.Data;
 import net.getnova.framework.core.Validatable;
 import net.getnova.framework.core.exception.ValidationException;
 
+import java.time.OffsetDateTime;
 import java.util.UUID;
 
 @Data
@@ -14,11 +15,17 @@ public class EventType implements Validatable {
 
     private final UUID id;
     private final String name;
+    private final OffsetDateTime registrationStartTime;
+    private final OffsetDateTime registrationEndTime;
 
     @JsonCreator
-    public EventType(final String name) {
+    public EventType(final String name,
+                     final OffsetDateTime registrationStartTime,
+                     final OffsetDateTime registrationEndTime) {
         this.id = null;
         this.name = name;
+        this.registrationStartTime = registrationStartTime;
+        this.registrationEndTime = registrationEndTime;
     }
 
     @Override
@@ -28,5 +35,14 @@ public class EventType implements Validatable {
 
         if (this.name.length() > 255)
             throw new ValidationException("name", "TOO_LONG");
+
+        if (this.registrationStartTime == null)
+            throw new ValidationException("startTime", "NOT_NULL");
+
+        if (this.registrationEndTime == null)
+            throw new ValidationException("startTime", "NOT_NULL");
+
+        if (this.registrationEndTime.isBefore(this.registrationStartTime))
+            throw new ValidationException("registrationEndTime", "AFTER_REGISTRATION_START_TIME");
     }
 }

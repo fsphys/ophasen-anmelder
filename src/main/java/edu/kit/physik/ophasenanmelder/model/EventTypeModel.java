@@ -9,6 +9,7 @@ import net.getnova.framework.jpa.model.TableModelAutoId;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import java.time.OffsetDateTime;
 
 @Entity
 @Setter
@@ -20,4 +21,10 @@ public class EventTypeModel extends TableModelAutoId {
 
     @Column(name = "name", nullable = false, unique = true)
     private String name;
+
+    @Column(name = "registrationStartTime", nullable = false)
+    private OffsetDateTime registrationStartTime;
+
+    @Column(name = "registrationEndTime", nullable = false)
+    private OffsetDateTime registrationEndTime;
 }

@@ -26,9 +26,7 @@ public class EventConverter implements Converter<EventModel, Event> {
                 dto.getName(),
                 dto.getDescription(),
                 dto.getMaxParticipants(),
-                dto.getStartTime(),
-                dto.getRegistrationStartTime(),
-                dto.getRegistrationEndTime()
+                dto.getStartTime()
         );
     }
 
@@ -40,9 +38,7 @@ public class EventConverter implements Converter<EventModel, Event> {
                 model.getName(),
                 model.getDescription(),
                 model.getMaxParticipants(),
-                model.getStartTime(),
-                model.getRegistrationStartTime(),
-                model.getRegistrationEndTime()
+                model.getStartTime()
         );
     }
 
@@ -57,8 +53,6 @@ public class EventConverter implements Converter<EventModel, Event> {
         model.setDescription(dto.getDescription());
         model.setMaxParticipants(dto.getMaxParticipants());
         model.setStartTime(dto.getStartTime());
-        model.setRegistrationStartTime(dto.getRegistrationStartTime());
-        model.setRegistrationEndTime(dto.getRegistrationEndTime());
     }
 
     @Override

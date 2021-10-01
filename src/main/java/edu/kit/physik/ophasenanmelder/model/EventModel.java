@@ -36,10 +36,4 @@ public class EventModel extends TableModelAutoId {
 
     @Column(name = "startTime", nullable = false)
     private OffsetDateTime startTime;
-
-    @Column(name = "registrationStartTime", nullable = false)
-    private OffsetDateTime registrationStartTime;
-
-    @Column(name = "registrationEndTime", nullable = false)
-    private OffsetDateTime registrationEndTime;
 }

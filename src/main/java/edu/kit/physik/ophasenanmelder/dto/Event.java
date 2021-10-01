@@ -19,25 +19,20 @@ public class Event implements Validatable {
     private final String description;
     private final Integer maxParticipants;
     private final OffsetDateTime startTime;
-    private final OffsetDateTime registrationStartTime;
-    private final OffsetDateTime registrationEndTime;
+
 
     @JsonCreator
     public Event(final UUID eventTypeId,
                  final String name,
                  final String description,
                  final Integer maxParticipants,
-                 final OffsetDateTime startTime,
-                 final OffsetDateTime registrationStartTime,
-                 final OffsetDateTime registrationEndTime) {
+                 final OffsetDateTime startTime) {
         this.id = null;
         this.eventTypeId = eventTypeId;
         this.name = name;
         this.description = description;
         this.maxParticipants = maxParticipants;
         this.startTime = startTime;
-        this.registrationStartTime = registrationStartTime;
-        this.registrationEndTime = registrationEndTime;
     }
 
     @Override
@@ -59,14 +54,5 @@ public class Event implements Validatable {
 
         if (this.startTime == null)
             throw new ValidationException("startTime", "NOT_NULL");
-
-        if (this.registrationStartTime == null)
-            throw new ValidationException("startTime", "NOT_NULL");
-
-        if (this.registrationEndTime == null)
-            throw new ValidationException("startTime", "NOT_NULL");
-
-        if (this.registrationEndTime.isBefore(this.registrationStartTime))
-            throw new ValidationException("registrationEndTime", "AFTER_REGISTRATION_START_TIME");
     }
 }
