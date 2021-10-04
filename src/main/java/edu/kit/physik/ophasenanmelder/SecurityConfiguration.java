@@ -36,6 +36,7 @@ public class SecurityConfiguration {
 
                 .pathMatchers(HttpMethod.POST, "/event/participation").permitAll()
                 .pathMatchers(HttpMethod.DELETE, "/event/participation/**").permitAll()
+                .pathMatchers(HttpMethod.OPTIONS, "/event/participation/**").permitAll()
 
                 .pathMatchers("/event/**").authenticated()
 
