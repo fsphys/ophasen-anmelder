@@ -15,6 +15,7 @@ import edu.kit.physik.ophasenanmelder.services.EventTypeService;
 import net.getnova.framework.core.exception.NotFoundException;
 import net.getnova.framework.core.service.AbstractCommonIdCrudService;
 import net.getnova.framework.core.utils.ValidationUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.mail.MailProperties;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -36,13 +37,14 @@ public class EventParticipationServiceImpl extends AbstractCommonIdCrudService<E
             Hallo %s,
 
             deine Anmeldung bei "%s %s" war erfolgreich.
-            Benutze diesen Link, um dich abzumelden: https://diesisteintollerlink.edu/abmelden/%s
+            Benutze diesen Link, um dich abzumelden: %s/participation/%s
             Viel Spaß bei der Veranstaltung.
 
 
             %s %s
 
             %s
+            
 
             Dies ist eine automatisch generierte Nachricht, bitte antworte nicht darauf.
             """;
@@ -59,18 +61,21 @@ public class EventParticipationServiceImpl extends AbstractCommonIdCrudService<E
     private final EventService eventService;
     private final JavaMailSender mailSender;
     private final MailProperties mailProperties;
+    private final String frontendUrl;
 
     public EventParticipationServiceImpl(final EventParticipationRepository repository,
                                          final EventParticipationConverter converter,
                                          final EventTypeService eventTypeService,
                                          final EventService eventService,
                                          final JavaMailSender mailSender,
-                                         final MailProperties mailProperties) {
+                                         final MailProperties mailProperties,
+                                         @Value("${FRONTEND_VALUE:http://localhost:4200}") final String frontendUrl) {
         super("EVENT_PARTICIPATION", repository, converter);
         this.eventTypeService = eventTypeService;
         this.eventService = eventService;
         this.mailSender = mailSender;
         this.mailProperties = mailProperties;
+        this.frontendUrl = frontendUrl;
     }
 
     @Override
@@ -134,6 +139,7 @@ public class EventParticipationServiceImpl extends AbstractCommonIdCrudService<E
                 participation.getGivenName(),
                 eventType.getName(),
                 event.getName(),
+                this.frontendUrl,
                 participation.getId(),
                 eventType.getName(),
                 event.getName(),
