@@ -6,6 +6,7 @@ import lombok.Data;
 import net.getnova.framework.core.Validatable;
 import net.getnova.framework.core.exception.ValidationException;
 
+import java.time.OffsetDateTime;
 import java.util.UUID;
 import java.util.regex.Pattern;
 
@@ -20,14 +21,26 @@ public class EventParticipation implements Validatable {
     private final String surname;
     private final String givenName;
     private final String mail;
+    private final Boolean hasTicket;
+    private final OffsetDateTime birthDate;
+    private final String birthPlace;
 
     @JsonCreator
-    public EventParticipation(final UUID eventId, final String surname, final String givenName, final String mail) {
+    public EventParticipation(final UUID eventId,
+                              final String surname,
+                              final String givenName,
+                              final String mail,
+                              final Boolean hasTicket,
+                              final OffsetDateTime birthDate,
+                              final String birthPlace) {
         this.id = null;
         this.eventId = eventId;
         this.surname = surname;
         this.givenName = givenName;
         this.mail = mail;
+        this.hasTicket = hasTicket;
+        this.birthDate = birthDate;
+        this.birthPlace = birthPlace;
     }
 
     @Override
@@ -52,5 +65,14 @@ public class EventParticipation implements Validatable {
 
         if (this.mail.length() > 255)
             throw new ValidationException("mail", "MAX_LENGTH");
+
+        if (this.birthDate != null && this.birthDate.isAfter(OffsetDateTime.now()))
+            throw new ValidationException("birthDate", "IN_PAST");
+
+        if (this.birthPlace != null && this.birthPlace.isBlank())
+            throw new ValidationException("birthPlace", "NOT_BLANK");
+
+        if (this.birthPlace != null && this.birthPlace.length() > 255)
+            throw new ValidationException("birthPlace", "MAX_LENGTH");
     }
 }

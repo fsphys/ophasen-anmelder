@@ -36,4 +36,10 @@ public class EventModel extends TableModelAutoId {
 
     @Column(name = "startTime", nullable = false)
     private OffsetDateTime startTime;
+
+    @Column(name = "needsHasTicket", nullable = false)
+    private Boolean needsHasTicket;
+
+    @Column(name = "needsBirthInformation", nullable = false)
+    private Boolean needsBirthInformation;
 }

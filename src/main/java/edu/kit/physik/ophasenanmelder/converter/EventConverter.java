@@ -28,7 +28,9 @@ public class EventConverter implements Converter<EventModel, Event> {
                 dto.getName(),
                 dto.getDescription(),
                 dto.getMaxParticipants(),
-                dto.getStartTime()
+                dto.getStartTime(),
+                dto.getNeedsHasTicket(),
+                dto.getNeedsBirthInformation()
         );
     }
 
@@ -41,7 +43,9 @@ public class EventConverter implements Converter<EventModel, Event> {
                 model.getDescription(),
                 model.getMaxParticipants(),
                 model.getStartTime(),
-                model.getMaxParticipants() - this.eventParticipationRepository.countAllByEventId(model.getId())
+                model.getMaxParticipants() - this.eventParticipationRepository.countAllByEventId(model.getId()),
+                model.getNeedsHasTicket(),
+                model.getNeedsBirthInformation()
         );
     }
 
@@ -56,6 +60,8 @@ public class EventConverter implements Converter<EventModel, Event> {
         model.setDescription(dto.getDescription());
         model.setMaxParticipants(dto.getMaxParticipants());
         model.setStartTime(dto.getStartTime());
+        model.setNeedsHasTicket(dto.getNeedsHasTicket());
+        model.setNeedsBirthInformation(dto.getNeedsBirthInformation());
     }
 
     @Override

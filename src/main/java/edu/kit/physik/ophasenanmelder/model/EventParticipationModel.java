@@ -11,6 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import java.time.OffsetDateTime;
 
 @Entity
 @Setter
@@ -32,5 +33,14 @@ public class EventParticipationModel extends TableModelAutoId {
 
     @Column(name = "mail", nullable = false)
     private String mail;
+
+    @Column(name = "hasTicket")
+    private Boolean hasTicket;
+
+    @Column(name = "birthDate")
+    private OffsetDateTime birthDate;
+
+    @Column(name = "birthPlace")
+    private String birthPlace;
 }
 

@@ -13,6 +13,7 @@ import edu.kit.physik.ophasenanmelder.services.EventParticipationService;
 import edu.kit.physik.ophasenanmelder.services.EventService;
 import edu.kit.physik.ophasenanmelder.services.EventTypeService;
 import net.getnova.framework.core.exception.NotFoundException;
+import net.getnova.framework.core.exception.ValidationException;
 import net.getnova.framework.core.service.AbstractCommonIdCrudService;
 import net.getnova.framework.core.utils.ValidationUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -44,7 +45,7 @@ public class EventParticipationServiceImpl extends AbstractCommonIdCrudService<E
             %s %s
 
             %s
-            
+                        
 
             Dies ist eine automatisch generierte Nachricht, bitte antworte nicht darauf.
             """;
@@ -86,6 +87,24 @@ public class EventParticipationServiceImpl extends AbstractCommonIdCrudService<E
         final EventType eventType = eventTypeService.findById(event.getEventTypeId());
 
         final OffsetDateTime now = OffsetDateTime.now();
+
+        if (event.getNeedsHasTicket() && dto.getHasTicket() == null)
+            throw new ValidationException("hasTicket", "NOT_NULL");
+
+        if (event.getNeedsBirthInformation() && dto.getBirthDate() == null)
+            throw new ValidationException("birthDate", "NOT_NULL");
+
+        if (event.getNeedsBirthInformation() && dto.getBirthPlace() == null)
+            throw new ValidationException("birthPlace", "NOT_NULL");
+
+        if (!event.getNeedsHasTicket() && dto.getHasTicket() != null)
+            throw new ValidationException("hasTicket", "NULL");
+
+        if (!event.getNeedsBirthInformation() && dto.getBirthDate() != null)
+            throw new ValidationException("birthDate", "NULL");
+
+        if (!event.getNeedsBirthInformation() && dto.getBirthPlace() != null)
+            throw new ValidationException("birthPlace", "NULL");
 
         if (now.isBefore(eventType.getRegistrationStartTime()) || now.isAfter(eventType.getRegistrationEndTime()))
             throw new EventRegistrationNotOpenException();

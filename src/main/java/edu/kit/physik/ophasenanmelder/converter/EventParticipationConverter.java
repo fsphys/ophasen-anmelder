@@ -25,7 +25,10 @@ public class EventParticipationConverter implements Converter<EventParticipation
                 eventModel,
                 dto.getSurname(),
                 dto.getGivenName(),
-                dto.getMail()
+                dto.getMail(),
+                dto.getHasTicket(),
+                dto.getBirthDate(),
+                dto.getBirthPlace()
         );
     }
 
@@ -36,7 +39,10 @@ public class EventParticipationConverter implements Converter<EventParticipation
                 model.getEvent().getId(),
                 model.getSurname(),
                 model.getGivenName(),
-                model.getMail()
+                model.getMail(),
+                model.getHasTicket(),
+                model.getBirthDate(),
+                model.getBirthPlace()
         );
     }
 
@@ -49,6 +55,9 @@ public class EventParticipationConverter implements Converter<EventParticipation
         model.setEvent(eventModel);
         model.setSurname(dto.getSurname());
         model.setGivenName(dto.getGivenName());
+        model.setHasTicket(dto.getHasTicket());
+        model.setBirthDate(dto.getBirthDate());
+        model.setBirthPlace(dto.getBirthPlace());
     }
 
     @Override

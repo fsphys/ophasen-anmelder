@@ -20,13 +20,15 @@ public class Event implements Validatable {
     private final Integer maxParticipants;
     private final OffsetDateTime startTime;
     private final Integer freeSpots;
+    private final Boolean needsHasTicket;
+    private final Boolean needsBirthInformation;
 
     @JsonCreator
     public Event(final UUID eventTypeId,
                  final String name,
                  final String description,
                  final Integer maxParticipants,
-                 final OffsetDateTime startTime) {
+                 final OffsetDateTime startTime, Boolean needsHasTicket, Boolean needsBirthInformation) {
         this.id = null;
         this.eventTypeId = eventTypeId;
         this.name = name;
@@ -34,6 +36,8 @@ public class Event implements Validatable {
         this.maxParticipants = maxParticipants;
         this.startTime = startTime;
         this.freeSpots = null;
+        this.needsHasTicket = needsHasTicket;
+        this.needsBirthInformation = needsBirthInformation;
     }
 
     @Override
@@ -55,5 +59,11 @@ public class Event implements Validatable {
 
         if (this.startTime == null)
             throw new ValidationException("startTime", "NOT_NULL");
+
+        if (this.needsHasTicket == null)
+            throw new ValidationException("needsHasTicket", "NOT_NULL");
+
+        if (this.needsBirthInformation == null)
+            throw new ValidationException("needsBirthInformation", "NOT_NULL");
     }
 }
