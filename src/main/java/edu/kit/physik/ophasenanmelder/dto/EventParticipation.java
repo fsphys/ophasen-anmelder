@@ -38,10 +38,19 @@ public class EventParticipation implements Validatable {
         if (this.surname == null || this.surname.isBlank())
             throw new ValidationException("surname", "NOT_BLANK");
 
+        if (this.surname.length() > 255)
+            throw new ValidationException("surname", "MAX_LENGTH");
+
         if (this.givenName == null || this.givenName.isBlank())
             throw new ValidationException("givenName", "NOT_BLANK");
 
+        if (this.givenName.length() > 255)
+            throw new ValidationException("giveName", "MAX_LENGTH");
+
         if (this.mail == null || !MAIL_PATTERN.matcher(this.mail).matches())
             throw new ValidationException("mail", "VALID_MAIL_ADDRESS");
+
+        if (this.mail.length() > 255)
+            throw new ValidationException("mail", "MAX_LENGTH");
     }
 }

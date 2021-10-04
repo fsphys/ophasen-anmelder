@@ -10,4 +10,6 @@ import java.util.UUID;
 public interface EventParticipationRepository extends CrudRepository<EventParticipationModel, UUID> {
 
     int countAllByEventId(UUID id);
+
+    int countAllByEventEventTypeIdAndMail(UUID eventTypeId, String mail);
 }

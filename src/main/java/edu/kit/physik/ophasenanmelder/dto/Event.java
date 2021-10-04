@@ -19,7 +19,7 @@ public class Event implements Validatable {
     private final String description;
     private final Integer maxParticipants;
     private final OffsetDateTime startTime;
-
+    private final Integer freeSpots;
 
     @JsonCreator
     public Event(final UUID eventTypeId,
@@ -33,6 +33,7 @@ public class Event implements Validatable {
         this.description = description;
         this.maxParticipants = maxParticipants;
         this.startTime = startTime;
+        this.freeSpots = null;
     }
 
     @Override

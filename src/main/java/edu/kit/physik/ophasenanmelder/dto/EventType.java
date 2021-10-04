@@ -37,10 +37,10 @@ public class EventType implements Validatable {
             throw new ValidationException("name", "TOO_LONG");
 
         if (this.registrationStartTime == null)
-            throw new ValidationException("startTime", "NOT_NULL");
+            throw new ValidationException("registrationStartTime", "NOT_NULL");
 
         if (this.registrationEndTime == null)
-            throw new ValidationException("startTime", "NOT_NULL");
+            throw new ValidationException("registrationEndTime", "NOT_NULL");
 
         if (this.registrationEndTime.isBefore(this.registrationStartTime))
             throw new ValidationException("registrationEndTime", "AFTER_REGISTRATION_START_TIME");

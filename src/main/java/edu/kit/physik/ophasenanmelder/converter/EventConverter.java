@@ -3,6 +3,7 @@ package edu.kit.physik.ophasenanmelder.converter;
 import edu.kit.physik.ophasenanmelder.dto.Event;
 import edu.kit.physik.ophasenanmelder.model.EventModel;
 import edu.kit.physik.ophasenanmelder.model.EventTypeModel;
+import edu.kit.physik.ophasenanmelder.repository.EventParticipationRepository;
 import edu.kit.physik.ophasenanmelder.repository.EventTypeRepository;
 import lombok.RequiredArgsConstructor;
 import net.getnova.framework.core.Converter;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Component;
 public class EventConverter implements Converter<EventModel, Event> {
 
     private final EventTypeRepository eventTypeRepository;
+    private final EventParticipationRepository eventParticipationRepository;
 
     @Override
     public EventModel toModel(final Event dto) {
@@ -38,7 +40,8 @@ public class EventConverter implements Converter<EventModel, Event> {
                 model.getName(),
                 model.getDescription(),
                 model.getMaxParticipants(),
-                model.getStartTime()
+                model.getStartTime(),
+                model.getMaxParticipants() - this.eventParticipationRepository.countAllByEventId(model.getId())
         );
     }
 

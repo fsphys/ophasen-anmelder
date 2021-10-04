@@ -6,6 +6,7 @@ import edu.kit.physik.ophasenanmelder.dto.EventParticipation;
 import edu.kit.physik.ophasenanmelder.dto.EventType;
 import edu.kit.physik.ophasenanmelder.exception.EventParticipationLimitExceededException;
 import edu.kit.physik.ophasenanmelder.exception.EventRegistrationNotOpenException;
+import edu.kit.physik.ophasenanmelder.exception.MailAlreadyRegisteredException;
 import edu.kit.physik.ophasenanmelder.model.EventParticipationModel;
 import edu.kit.physik.ophasenanmelder.repository.EventParticipationRepository;
 import edu.kit.physik.ophasenanmelder.services.EventParticipationService;
@@ -86,6 +87,9 @@ public class EventParticipationServiceImpl extends AbstractCommonIdCrudService<E
 
         if (event.getMaxParticipants() <= countParticipants(dto.getEventId()))
             throw new EventParticipationLimitExceededException();
+
+        if (((EventParticipationRepository) this.repository).countAllByEventEventTypeIdAndMail(eventType.getId(), dto.getMail()) > 0)
+            throw new MailAlreadyRegisteredException();
 
         final EventParticipation eventParticipation = this.converter.toDto(this.repository.save(this.converter.toModel(dto)));
         try {
