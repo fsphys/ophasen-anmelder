@@ -69,7 +69,7 @@ public class EventParticipationServiceImpl extends AbstractCommonIdCrudService<E
                                          final EventService eventService,
                                          final JavaMailSender mailSender,
                                          final MailProperties mailProperties,
-                                         @Value("${FRONTEND_VALUE:http://localhost:4200}") final String frontendUrl) {
+                                         @Value("${FRONTEND_URL:http://localhost:4200}") final String frontendUrl) {
         super("EVENT_PARTICIPATION", repository, converter);
         this.eventTypeService = eventTypeService;
         this.eventService = eventService;
