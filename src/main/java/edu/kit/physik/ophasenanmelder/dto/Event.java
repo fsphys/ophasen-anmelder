@@ -28,7 +28,9 @@ public class Event implements Validatable {
                  final String name,
                  final String description,
                  final Integer maxParticipants,
-                 final OffsetDateTime startTime, Boolean needsHasTicket, Boolean needsBirthInformation) {
+                 final OffsetDateTime startTime,
+                 final Boolean needsHasTicket,
+                 final Boolean needsBirthInformation) {
         this.id = null;
         this.eventTypeId = eventTypeId;
         this.name = name;
