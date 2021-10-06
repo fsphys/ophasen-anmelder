@@ -3,6 +3,7 @@ package edu.kit.physik.ophasenanmelder.services.impl;
 import edu.kit.physik.ophasenanmelder.converter.EventConverter;
 import edu.kit.physik.ophasenanmelder.dto.Event;
 import edu.kit.physik.ophasenanmelder.model.EventModel;
+import edu.kit.physik.ophasenanmelder.repository.EventParticipationRepository;
 import edu.kit.physik.ophasenanmelder.repository.EventRepository;
 import edu.kit.physik.ophasenanmelder.services.EventService;
 import net.getnova.framework.core.service.AbstractCommonIdCrudService;
@@ -15,8 +16,19 @@ import java.util.stream.Collectors;
 @Service
 public class EventServiceImpl extends AbstractCommonIdCrudService<Event, UUID, EventModel> implements EventService {
 
-    public EventServiceImpl(final EventRepository repository, final EventConverter converter) {
+    private final EventParticipationRepository eventParticipationRepository;
+
+    public EventServiceImpl(final EventRepository repository,
+                            final EventConverter converter,
+                            final EventParticipationRepository eventParticipationRepository) {
         super("EVENT", repository, converter);
+        this.eventParticipationRepository = eventParticipationRepository;
+    }
+
+    @Override
+    public void delete(final UUID id) {
+        this.eventParticipationRepository.deleteAllByEventId(id);
+        super.delete(id);
     }
 
     @Override

@@ -12,4 +12,6 @@ public interface EventParticipationRepository extends CrudRepository<EventPartic
     int countAllByEventId(UUID id);
 
     int countAllByEventEventTypeIdAndMail(UUID eventTypeId, String mail);
+
+    void deleteAllByEventId(UUID eventId);
 }
