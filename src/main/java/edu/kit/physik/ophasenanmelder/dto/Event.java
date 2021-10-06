@@ -6,7 +6,6 @@ import lombok.Data;
 import net.getnova.framework.core.Validatable;
 import net.getnova.framework.core.exception.ValidationException;
 
-import java.time.OffsetDateTime;
 import java.util.UUID;
 
 @Data
@@ -18,7 +17,6 @@ public class Event implements Validatable {
     private final String name;
     private final String description;
     private final Integer maxParticipants;
-    private final OffsetDateTime startTime;
     private final Integer freeSpots;
     private final Boolean needsHasTicket;
     private final Boolean needsBirthInformation;
@@ -28,7 +26,6 @@ public class Event implements Validatable {
                  final String name,
                  final String description,
                  final Integer maxParticipants,
-                 final OffsetDateTime startTime,
                  final Boolean needsHasTicket,
                  final Boolean needsBirthInformation) {
         this.id = null;
@@ -36,7 +33,6 @@ public class Event implements Validatable {
         this.name = name;
         this.description = description;
         this.maxParticipants = maxParticipants;
-        this.startTime = startTime;
         this.freeSpots = null;
         this.needsHasTicket = needsHasTicket;
         this.needsBirthInformation = needsBirthInformation;
@@ -58,9 +54,6 @@ public class Event implements Validatable {
 
         if (this.maxParticipants == null || this.maxParticipants <= 0)
             throw new ValidationException("maxParticipants", "MAX_PARTICIPANTS_POSITIVE");
-
-        if (this.startTime == null)
-            throw new ValidationException("startTime", "NOT_NULL");
 
         if (this.needsHasTicket == null)
             throw new ValidationException("needsHasTicket", "NOT_NULL");

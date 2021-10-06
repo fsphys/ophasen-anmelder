@@ -11,7 +11,6 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import java.time.OffsetDateTime;
 
 @Entity
 @Setter
@@ -33,9 +32,6 @@ public class EventModel extends TableModelAutoId {
 
     @Column(name = "maxParticipants", nullable = false)
     private Integer maxParticipants;
-
-    @Column(name = "startTime", nullable = false)
-    private OffsetDateTime startTime;
 
     @Column(name = "needsHasTicket", nullable = false)
     private Boolean needsHasTicket;
