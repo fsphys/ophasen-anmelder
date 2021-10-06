@@ -6,6 +6,7 @@ import edu.kit.physik.ophasenanmelder.model.EventTypeModel;
 import edu.kit.physik.ophasenanmelder.repository.EventTypeRepository;
 import edu.kit.physik.ophasenanmelder.services.EventService;
 import edu.kit.physik.ophasenanmelder.services.EventTypeService;
+import net.getnova.framework.core.exception.ValidationException;
 import net.getnova.framework.core.service.AbstractCommonIdCrudService;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +22,14 @@ public class EventTypeServiceImpl extends AbstractCommonIdCrudService<EventType,
                                 final EventService eventService) {
         super("EVENT_TYPE", repository, converter);
         this.eventService = eventService;
+    }
+
+    @Override
+    public EventType save(final EventType dto) {
+        if (((EventTypeRepository) this.repository).findByName(dto.getName()).isPresent())
+            throw new ValidationException("name", "UNIQUE");
+
+        return super.save(dto);
     }
 
     @Override
