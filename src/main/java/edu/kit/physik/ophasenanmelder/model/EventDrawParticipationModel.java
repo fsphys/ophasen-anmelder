@@ -1,10 +1,10 @@
 package edu.kit.physik.ophasenanmelder.model;
 
+import de.m4rc3l.nova.jpa.model.TableModelAutoId;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import de.m4rc3l.nova.jpa.model.TableModelAutoId;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,8 +18,8 @@ import java.time.OffsetDateTime;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "event_participation")
-public class EventParticipationModel extends TableModelAutoId {
+@Table(name = "event_draw_participation")
+public class EventDrawParticipationModel extends TableModelAutoId {
 
     @ManyToOne
     @JoinColumn(name = "event_id", nullable = false)
@@ -40,4 +40,3 @@ public class EventParticipationModel extends TableModelAutoId {
     @Column(name = "birth_place")
     private String birthPlace;
 }
-

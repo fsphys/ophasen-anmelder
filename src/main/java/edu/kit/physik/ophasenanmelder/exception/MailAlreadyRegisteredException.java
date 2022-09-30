@@ -1,6 +1,6 @@
 package edu.kit.physik.ophasenanmelder.exception;
 
-import net.getnova.framework.core.exception.HttpException;
+import de.m4rc3l.nova.core.exception.HttpException;
 import org.springframework.http.HttpStatus;
 
 public class MailAlreadyRegisteredException extends HttpException {

@@ -3,8 +3,8 @@ package edu.kit.physik.ophasenanmelder.dto;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import net.getnova.framework.core.Validatable;
-import net.getnova.framework.core.exception.ValidationException;
+import de.m4rc3l.nova.core.Validatable;
+import de.m4rc3l.nova.core.exception.ValidationException;
 
 import java.util.UUID;
 
@@ -18,7 +18,6 @@ public class Event implements Validatable {
     private final String description;
     private final Integer maxParticipants;
     private final Integer freeSpots;
-    private final Boolean needsHasTicket;
     private final Boolean needsBirthInformation;
 
     @JsonCreator
@@ -26,7 +25,6 @@ public class Event implements Validatable {
                  final String name,
                  final String description,
                  final Integer maxParticipants,
-                 final Boolean needsHasTicket,
                  final Boolean needsBirthInformation) {
         this.id = null;
         this.eventTypeId = eventTypeId;
@@ -34,7 +32,6 @@ public class Event implements Validatable {
         this.description = description;
         this.maxParticipants = maxParticipants;
         this.freeSpots = null;
-        this.needsHasTicket = needsHasTicket;
         this.needsBirthInformation = needsBirthInformation;
     }
 
@@ -54,9 +51,6 @@ public class Event implements Validatable {
 
         if (this.maxParticipants == null || this.maxParticipants <= 0)
             throw new ValidationException("maxParticipants", "MAX_PARTICIPANTS_POSITIVE");
-
-        if (this.needsHasTicket == null)
-            throw new ValidationException("needsHasTicket", "NOT_NULL");
 
         if (this.needsBirthInformation == null)
             throw new ValidationException("needsBirthInformation", "NOT_NULL");

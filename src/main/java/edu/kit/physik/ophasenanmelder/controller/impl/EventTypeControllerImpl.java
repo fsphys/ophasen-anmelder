@@ -3,7 +3,7 @@ package edu.kit.physik.ophasenanmelder.controller.impl;
 import edu.kit.physik.ophasenanmelder.controller.EventTypeController;
 import edu.kit.physik.ophasenanmelder.dto.EventType;
 import edu.kit.physik.ophasenanmelder.services.EventTypeService;
-import net.getnova.framework.core.controller.AbstractCrudController;
+import de.m4rc3l.nova.core.controller.AbstractCrudController;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.UUID;

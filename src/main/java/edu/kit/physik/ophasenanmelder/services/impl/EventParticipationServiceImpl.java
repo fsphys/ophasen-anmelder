@@ -12,10 +12,10 @@ import edu.kit.physik.ophasenanmelder.repository.EventParticipationRepository;
 import edu.kit.physik.ophasenanmelder.services.EventParticipationService;
 import edu.kit.physik.ophasenanmelder.services.EventService;
 import edu.kit.physik.ophasenanmelder.services.EventTypeService;
-import net.getnova.framework.core.exception.NotFoundException;
-import net.getnova.framework.core.exception.ValidationException;
-import net.getnova.framework.core.service.AbstractCommonIdCrudService;
-import net.getnova.framework.core.utils.ValidationUtils;
+import de.m4rc3l.nova.core.exception.NotFoundException;
+import de.m4rc3l.nova.core.exception.ValidationException;
+import de.m4rc3l.nova.core.service.AbstractCommonIdCrudService;
+import de.m4rc3l.nova.core.utils.ValidationUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.mail.MailProperties;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -88,17 +88,11 @@ public class EventParticipationServiceImpl extends AbstractCommonIdCrudService<E
 
         final OffsetDateTime now = OffsetDateTime.now();
 
-        if (event.getNeedsHasTicket() && dto.getHasTicket() == null)
-            throw new ValidationException("hasTicket", "NOT_NULL");
-
         if (event.getNeedsBirthInformation() && dto.getBirthDate() == null)
             throw new ValidationException("birthDate", "NOT_NULL");
 
         if (event.getNeedsBirthInformation() && dto.getBirthPlace() == null)
             throw new ValidationException("birthPlace", "NOT_NULL");
-
-        if (!event.getNeedsHasTicket() && dto.getHasTicket() != null)
-            throw new ValidationException("hasTicket", "NULL");
 
         if (!event.getNeedsBirthInformation() && dto.getBirthDate() != null)
             throw new ValidationException("birthDate", "NULL");

@@ -6,10 +6,11 @@ import edu.kit.physik.ophasenanmelder.model.EventTypeModel;
 import edu.kit.physik.ophasenanmelder.repository.EventTypeRepository;
 import edu.kit.physik.ophasenanmelder.services.EventService;
 import edu.kit.physik.ophasenanmelder.services.EventTypeService;
-import net.getnova.framework.core.exception.ValidationException;
-import net.getnova.framework.core.service.AbstractCommonIdCrudService;
+import de.m4rc3l.nova.core.exception.ValidationException;
+import de.m4rc3l.nova.core.service.AbstractCommonIdCrudService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -36,5 +37,10 @@ public class EventTypeServiceImpl extends AbstractCommonIdCrudService<EventType,
     public void delete(final UUID id) {
         this.eventService.findAllByType(id).forEach(event -> this.eventService.delete(event.getId()));
         super.delete(id);
+    }
+
+    @Override
+    public List<EventType> findAllByEventDrawId(final UUID eventDrawId) {
+        return ((EventTypeRepository) this.repository).findAllByEventDrawId(eventDrawId).stream().map((this.converter::toDto)).toList();
     }
 }

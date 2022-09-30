@@ -6,8 +6,8 @@ import edu.kit.physik.ophasenanmelder.model.EventTypeModel;
 import edu.kit.physik.ophasenanmelder.repository.EventParticipationRepository;
 import edu.kit.physik.ophasenanmelder.repository.EventTypeRepository;
 import lombok.RequiredArgsConstructor;
-import net.getnova.framework.core.Converter;
-import net.getnova.framework.core.exception.NotFoundException;
+import de.m4rc3l.nova.core.Converter;
+import de.m4rc3l.nova.core.exception.NotFoundException;
 import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
@@ -28,7 +28,6 @@ public class EventConverter implements Converter<EventModel, Event> {
                 dto.getName(),
                 dto.getDescription(),
                 dto.getMaxParticipants(),
-                dto.getNeedsHasTicket(),
                 dto.getNeedsBirthInformation()
         );
     }
@@ -42,7 +41,6 @@ public class EventConverter implements Converter<EventModel, Event> {
                 model.getDescription(),
                 model.getMaxParticipants(),
                 model.getMaxParticipants() - this.eventParticipationRepository.countAllByEventId(model.getId()),
-                model.getNeedsHasTicket(),
                 model.getNeedsBirthInformation()
         );
     }
@@ -57,7 +55,6 @@ public class EventConverter implements Converter<EventModel, Event> {
         model.setName(dto.getName());
         model.setDescription(dto.getDescription());
         model.setMaxParticipants(dto.getMaxParticipants());
-        model.setNeedsHasTicket(dto.getNeedsHasTicket());
         model.setNeedsBirthInformation(dto.getNeedsBirthInformation());
     }
 

@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import net.getnova.framework.jpa.model.TableModelAutoId;
+import de.m4rc3l.nova.jpa.model.TableModelAutoId;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,7 +17,7 @@ import javax.persistence.Table;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "events")
+@Table(name = "event")
 public class EventModel extends TableModelAutoId {
 
     @ManyToOne
@@ -30,12 +30,9 @@ public class EventModel extends TableModelAutoId {
     @Column(name = "description", nullable = false, columnDefinition = "TEXT")
     private String description;
 
-    @Column(name = "maxParticipants", nullable = false)
+    @Column(name = "max_participants", nullable = false)
     private Integer maxParticipants;
 
-    @Column(name = "needsHasTicket", nullable = false)
-    private Boolean needsHasTicket;
-
-    @Column(name = "needsBirthInformation", nullable = false)
+    @Column(name = "needs_birth_information", nullable = false)
     private Boolean needsBirthInformation;
 }

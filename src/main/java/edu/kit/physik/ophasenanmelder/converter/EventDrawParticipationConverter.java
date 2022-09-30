@@ -1,27 +1,27 @@
 package edu.kit.physik.ophasenanmelder.converter;
 
-import edu.kit.physik.ophasenanmelder.dto.EventParticipation;
-import edu.kit.physik.ophasenanmelder.model.EventModel;
-import edu.kit.physik.ophasenanmelder.model.EventParticipationModel;
-import edu.kit.physik.ophasenanmelder.repository.EventRepository;
-import lombok.RequiredArgsConstructor;
 import de.m4rc3l.nova.core.Converter;
 import de.m4rc3l.nova.core.exception.NotFoundException;
+import edu.kit.physik.ophasenanmelder.dto.EventDrawParticipation;
+import edu.kit.physik.ophasenanmelder.model.EventDrawParticipationModel;
+import edu.kit.physik.ophasenanmelder.model.EventModel;
+import edu.kit.physik.ophasenanmelder.repository.EventRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
 @Component
-public class EventParticipationConverter implements Converter<EventParticipationModel, EventParticipation> {
+public class EventDrawParticipationConverter implements Converter<EventDrawParticipationModel, EventDrawParticipation> {
 
     private final EventRepository eventRepository;
 
     @Override
-    public EventParticipationModel toModel(final EventParticipation dto) {
+    public EventDrawParticipationModel toModel(final EventDrawParticipation dto) {
         final EventModel eventModel = this.eventRepository
                 .findById(dto.getEventId())
                 .orElseThrow(() -> new NotFoundException("EVENT_NOT_FOUND"));
 
-        return new EventParticipationModel(
+        return new EventDrawParticipationModel(
                 eventModel,
                 dto.getSurname(),
                 dto.getGivenName(),
@@ -32,8 +32,8 @@ public class EventParticipationConverter implements Converter<EventParticipation
     }
 
     @Override
-    public EventParticipation toDto(final EventParticipationModel model) {
-        return new EventParticipation(
+    public EventDrawParticipation toDto(final EventDrawParticipationModel model) {
+        return new EventDrawParticipation(
                 model.getId(),
                 model.getEvent().getId(),
                 model.getSurname(),
@@ -45,7 +45,7 @@ public class EventParticipationConverter implements Converter<EventParticipation
     }
 
     @Override
-    public void override(final EventParticipationModel model, final EventParticipation dto) {
+    public void override(final EventDrawParticipationModel model, final EventDrawParticipation dto) {
         final EventModel eventModel = this.eventRepository
                 .findById(dto.getEventId())
                 .orElseThrow(() -> new NotFoundException("EVENT_NOT_FOUND"));
@@ -58,7 +58,7 @@ public class EventParticipationConverter implements Converter<EventParticipation
     }
 
     @Override
-    public void merge(final EventParticipationModel model, final EventParticipation dto) {
+    public void merge(final EventDrawParticipationModel model, final EventDrawParticipation dto) {
         throw new UnsupportedOperationException();
     }
 }

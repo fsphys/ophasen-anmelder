@@ -7,7 +7,8 @@ plugins {
 
 group = 'edu.kit.physik'
 version = '1.0.2'
-sourceCompatibility = '11'
+sourceCompatibility = '17'
+targetCompatibility = '17'
 
 configurations {
     compileOnly {
@@ -16,9 +17,12 @@ configurations {
 }
 
 repositories {
-    mavenCentral()
+    mavenCentral {
+        content { excludeGroup('de.m4rc3l.nova') }
+    }
     maven {
         url 'https://mvn.m4rc3l.de'
+        content { includeGroup('de.m4rc3l.nova') }
     }
 }
 
@@ -30,15 +34,16 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'org.postgresql:postgresql'
+    runtimeOnly 'com.h2database:h2'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
     annotationProcessor 'org.springframework:spring-context-indexer'
 
-    implementation('de.m4rc3l.nova:nova-core:3.0.5') {
+    implementation('de.m4rc3l.nova:nova-core:edge') {
         changing(true)
     }
-    implementation('de.m4rc3l.nova:nova-data-jpa:3.0.5') {
+    implementation('de.m4rc3l.nova:nova-data-jpa:edge') {
         changing(true)
     }
 }

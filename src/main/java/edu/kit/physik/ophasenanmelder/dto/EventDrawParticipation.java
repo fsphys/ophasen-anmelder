@@ -1,10 +1,10 @@
 package edu.kit.physik.ophasenanmelder.dto;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import lombok.AllArgsConstructor;
-import lombok.Data;
 import de.m4rc3l.nova.core.Validatable;
 import de.m4rc3l.nova.core.exception.ValidationException;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
 import java.time.OffsetDateTime;
 import java.util.UUID;
@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 
 @Data
 @AllArgsConstructor
-public class EventParticipation implements Validatable {
+public class EventDrawParticipation implements Validatable {
 
     private static final Pattern MAIL_PATTERN = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
 
@@ -25,7 +25,7 @@ public class EventParticipation implements Validatable {
     private final String birthPlace;
 
     @JsonCreator
-    public EventParticipation(final UUID eventId,
+    public EventDrawParticipation(final UUID eventId,
                               final String surname,
                               final String givenName,
                               final String mail,
