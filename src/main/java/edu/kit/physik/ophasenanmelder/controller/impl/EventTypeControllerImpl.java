@@ -14,4 +14,9 @@ public class EventTypeControllerImpl extends AbstractCrudController<EventType, U
     public EventTypeControllerImpl(final EventTypeService service) {
         super(service);
     }
+
+    @Override
+    public void draw(UUID id) {
+
+    }
 }

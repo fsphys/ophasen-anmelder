@@ -6,6 +6,7 @@ import edu.kit.physik.ophasenanmelder.dto.EventParticipation;
 import edu.kit.physik.ophasenanmelder.dto.EventType;
 import edu.kit.physik.ophasenanmelder.exception.EventParticipationLimitExceededException;
 import edu.kit.physik.ophasenanmelder.exception.EventRegistrationNotOpenException;
+import edu.kit.physik.ophasenanmelder.exception.EventTypeNeedsDrawException;
 import edu.kit.physik.ophasenanmelder.exception.MailAlreadyRegisteredException;
 import edu.kit.physik.ophasenanmelder.model.EventParticipationModel;
 import edu.kit.physik.ophasenanmelder.repository.EventParticipationRepository;
@@ -83,8 +84,11 @@ public class EventParticipationServiceImpl extends AbstractCommonIdCrudService<E
     public EventParticipation save(final EventParticipation dto) {
         ValidationUtils.validate(dto);
 
-        final Event event = eventService.findById(dto.getEventId());
-        final EventType eventType = eventTypeService.findById(event.getEventTypeId());
+        final Event event = this.eventService.findById(dto.getEventId());
+        final EventType eventType = this.eventTypeService.findById(event.getEventTypeId());
+        if (this.eventTypeService.eventTypeHasDrawEnabled(eventType)) {
+            throw new EventTypeNeedsDrawException();
+        }
 
         final OffsetDateTime now = OffsetDateTime.now();
 

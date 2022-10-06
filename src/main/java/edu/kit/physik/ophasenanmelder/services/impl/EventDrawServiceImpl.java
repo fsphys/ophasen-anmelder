@@ -19,20 +19,20 @@ import java.util.UUID;
 @Service
 public class EventDrawServiceImpl extends AbstractCommonIdCrudService<EventDraw, UUID, EventDrawModel> implements EventDrawService {
 
-    private final EventTypeService eventTypeService;
+    private final EventTypeRepository eventTypeRepository;
 
     public EventDrawServiceImpl(final EventDrawRepository repository,
                                 final EventDrawConverter converter,
-                                final EventTypeService eventTypeService) {
+                                final EventTypeRepository eventTypeRepository) {
         super("EVENT_DRAW", repository, converter);
-        this.eventTypeService = eventTypeService;
+        this.eventTypeRepository = eventTypeRepository;
     }
 
     @Override
     public void delete(final UUID id) {
-        this.eventTypeService.findAllByEventDrawId(id).forEach((eventType -> {
-            eventType.setEventDrawId(null);
-            this.eventTypeService.save(eventType);
+        this.eventTypeRepository.findAllByEventDrawId(id).forEach((eventType -> {
+            eventType.setEventDraw(null);
+            this.eventTypeRepository.save(eventType);
         }));
         super.delete(id);
     }

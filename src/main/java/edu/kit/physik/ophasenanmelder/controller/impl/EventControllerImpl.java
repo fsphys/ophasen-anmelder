@@ -20,9 +20,4 @@ public class EventControllerImpl extends AbstractCrudController<Event, UUID> imp
     public Set<Event> findAllByTypeId(final UUID typeId) {
         return ((EventService) this.service).findAllByType(typeId);
     }
-
-    @Override
-    public void draw(final UUID id) {
-
-    }
 }

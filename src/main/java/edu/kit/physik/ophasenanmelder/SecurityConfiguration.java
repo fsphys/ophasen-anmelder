@@ -29,6 +29,8 @@ public class SecurityConfiguration {
                 .pathMatchers(HttpMethod.OPTIONS, "/", "/swagger-ui", "/webjars/**", "/v3/api-docs/**").permitAll()
 
                 .pathMatchers(HttpMethod.GET, "/event/participation").authenticated()
+                .pathMatchers(HttpMethod.GET, "/event/draw/participation").authenticated()
+                .pathMatchers(HttpMethod.GET, "/event/type/**/draw").authenticated()
 
                 .pathMatchers(HttpMethod.GET, "/event/**").permitAll()
                 .pathMatchers(HttpMethod.HEAD, "/event/**").permitAll()

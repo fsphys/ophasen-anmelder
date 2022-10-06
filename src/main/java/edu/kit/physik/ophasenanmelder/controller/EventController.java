@@ -16,7 +16,4 @@ public interface EventController extends CrudController<Event, UUID> {
 
     @GetMapping(path = "/byType/{typeId}")
     Set<Event> findAllByTypeId(@PathVariable UUID typeId);
-
-    @GetMapping(path = "/{id}/draw")
-    void draw(@PathVariable UUID id);
 }
