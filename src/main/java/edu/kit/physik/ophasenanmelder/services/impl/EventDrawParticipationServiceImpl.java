@@ -1,5 +1,6 @@
 package edu.kit.physik.ophasenanmelder.services.impl;
 
+import de.m4rc3l.nova.core.exception.NotFoundException;
 import de.m4rc3l.nova.core.exception.ValidationException;
 import de.m4rc3l.nova.core.service.AbstractCommonIdCrudService;
 import de.m4rc3l.nova.core.utils.ValidationUtils;
@@ -10,8 +11,8 @@ import edu.kit.physik.ophasenanmelder.dto.EventDrawParticipation;
 import edu.kit.physik.ophasenanmelder.dto.EventType;
 import edu.kit.physik.ophasenanmelder.exception.EventRegistrationNotOpenException;
 import edu.kit.physik.ophasenanmelder.exception.EventTypeHasNoDrawException;
-import edu.kit.physik.ophasenanmelder.exception.MailAlreadyRegisteredException;
 import edu.kit.physik.ophasenanmelder.model.EventDrawParticipationModel;
+import edu.kit.physik.ophasenanmelder.model.EventParticipationModel;
 import edu.kit.physik.ophasenanmelder.repository.EventDrawParticipationRepository;
 import edu.kit.physik.ophasenanmelder.repository.EventParticipationRepository;
 import edu.kit.physik.ophasenanmelder.services.EventDrawParticipationService;
@@ -30,6 +31,7 @@ import javax.mail.internet.MimeMessage;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 public class EventDrawParticipationServiceImpl extends AbstractCommonIdCrudService<EventDrawParticipation, UUID, EventDrawParticipationModel> implements EventDrawParticipationService {
@@ -37,9 +39,9 @@ public class EventDrawParticipationServiceImpl extends AbstractCommonIdCrudServi
     private static final String MAIL_REGISTRATION_TEXT = """
             Hallo %s,
 
-            deine Anmeldung bei "%s %s" war erfolgreich.
-            Benutze diesen Link, um dich abzumelden: %s/participation/%s
-            Viel Spaß bei der Veranstaltung.
+            deine Anmeldung zur Verlosung bei "%s %s" war erfolgreich.
+            Benutze diesen Link, um dich abzumelden: %s/draw/participation/%s
+            Ob du einen Platz erhalten hast, erfährst du am %s Uhr.
 
 
             %s %s
@@ -49,7 +51,13 @@ public class EventDrawParticipationServiceImpl extends AbstractCommonIdCrudServi
 
             Dies ist eine automatisch generierte Nachricht, bitte antworte nicht darauf.
             """;
+    private static final String MAIL_UN_REGISTRATION_TEXT = """
+            Hallo %s
 
+            deine Abmeldung von der Verlosung bei "%s %s" war erfolgreich.
+
+            Dies ist eine automatisch generierte Nachricht, bitte antworte nicht darauf.
+            """;
     private final EventService eventService;
     private final EventTypeService eventTypeService;
     private final EventParticipationRepository eventParticipationRepository;
@@ -109,9 +117,6 @@ public class EventDrawParticipationServiceImpl extends AbstractCommonIdCrudServi
         if (now.isBefore(eventType.getRegistrationStartTime()) || now.isAfter(eventType.getRegistrationEndTime()))
             throw new EventRegistrationNotOpenException();
 
-        if (this.eventParticipationRepository.countAllByEventEventTypeIdAndMail(eventType.getId(), dto.getMail()) > 0)
-            throw new MailAlreadyRegisteredException();
-
         final EventDrawParticipation eventDrawParticipation = this.converter.toDto(this.repository.save(this.converter.toModel(dto)));
         try {
             this.sendDrawRegistrationMail(eventDrawParticipation);
@@ -123,7 +128,15 @@ public class EventDrawParticipationServiceImpl extends AbstractCommonIdCrudServi
 
     @Override
     public void delete(final UUID id) {
-        super.delete(id);
+        final EventDrawParticipationModel eventDrawParticipationModel = this.repository.findById(id).orElseThrow(() -> new NotFoundException(this.name));
+
+        try {
+            this.sendDrawUnRegistrationMail(eventDrawParticipationModel);
+        } catch (UnsupportedEncodingException | MessagingException e) {
+            throw new RuntimeException(e);
+        }
+
+        this.repository.delete(eventDrawParticipationModel);
     }
 
     @Override
@@ -132,21 +145,45 @@ public class EventDrawParticipationServiceImpl extends AbstractCommonIdCrudServi
         message.addFrom(new Address[]{new InternetAddress(this.mailProperties.getUsername(),
                 this.mailProperties.getProperties().get("sender"),
                 StandardCharsets.UTF_8.name())});
-        message.setSubject("Deine Verlosung-Anmeldung wurde bestätigt");
+        message.setSubject("Deine Anmeldung zur Verlosung wurde bestätigt");
         message.setRecipients(Message.RecipientType.TO, drawParticipation.getMail());
 
         final Event event = this.eventService.findById(drawParticipation.getEventId());
         final EventType eventType = this.eventTypeService.findById(event.getEventTypeId());
+        final EventDraw eventDraw = this.eventDrawService.findById(event.getEventTypeId());
         message.setText(String.format(
                 MAIL_REGISTRATION_TEXT,
-                participation.getGivenName(),
+                drawParticipation.getGivenName(),
                 eventType.getName(),
                 event.getName(),
                 this.frontendUrl,
-                participation.getId(),
+                drawParticipation.getId(),
+                eventDraw.getDrawTime().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")),
                 eventType.getName(),
                 event.getName(),
                 event.getDescription()
+        ), StandardCharsets.UTF_8.name());
+
+        this.mailSender.send(message);
+    }
+
+    @Override
+    public void sendDrawUnRegistrationMail(final EventDrawParticipationModel drawParticipation) throws UnsupportedEncodingException, MessagingException {
+        final MimeMessage message = this.mailSender.createMimeMessage();
+        message.addFrom(new Address[]{new InternetAddress(this.mailProperties.getUsername(),
+                this.mailProperties.getProperties().get("sender"),
+                StandardCharsets.UTF_8.name())});
+        message.setSubject("Deine Abmeldung von der Verlosung wurde bestätigt");
+        message.setRecipients(Message.RecipientType.TO, drawParticipation.getMail());
+
+        final Event event = this.eventService.findById(drawParticipation.getEvent().getId());
+        final EventType eventType = this.eventTypeService.findById(event.getEventTypeId());
+
+        message.setText(String.format(
+                MAIL_UN_REGISTRATION_TEXT,
+                drawParticipation.getGivenName(),
+                eventType.getName(),
+                event.getName()
         ), StandardCharsets.UTF_8.name());
 
         this.mailSender.send(message);
