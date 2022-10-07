@@ -1,6 +1,6 @@
 ARG JAVA_VERSION=17
 
-FROM eclipse-temurin:${JAVA_VERSION}-jdk-alpine AS builder
+FROM eclipse-temurin:${JAVA_VERSION}-jdk-jammy AS builder
 
 RUN set -o errexit -o nounset \
  && apt-get update \
@@ -12,14 +12,14 @@ WORKDIR /src
 RUN chmod +x ./gradlew \
     && ./gradlew :bootJar --stacktrace --no-daemon
 
-FROM eclipse-temurin:${JAVA_VERSION}-jre-alpine AS extractor
+FROM eclipse-temurin:${JAVA_VERSION}-jre-jammy AS extractor
 
 WORKDIR /src
 
 COPY --from=builder build/libs/${SERVICE_NAME}*.jar ophasen-anmelder.jar
 RUN java -Djarmode=layertools -jar ophasen-anmelder.jar extract
 
-FROM eclipse-temurin:${JAVA_VERSION}-jre-alpine
+FROM eclipse-temurin:${JAVA_VERSION}-jre-jammy
 
 ENV HTTP_PORT=8080
 ENV MANAGEMENT_PORT=8081
