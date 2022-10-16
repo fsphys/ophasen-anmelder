@@ -30,7 +30,7 @@ public class SecurityConfiguration {
 
                 .pathMatchers(HttpMethod.GET, "/event/participation").authenticated()
                 .pathMatchers(HttpMethod.GET, "/event/draw/participation").authenticated()
-                .pathMatchers(HttpMethod.GET, "/event/type/**/draw").authenticated()
+                .pathMatchers(HttpMethod.GET, "/event/type/{id}/draw").authenticated()
 
                 .pathMatchers(HttpMethod.GET, "/event/**").permitAll()
                 .pathMatchers(HttpMethod.HEAD, "/event/**").permitAll()
