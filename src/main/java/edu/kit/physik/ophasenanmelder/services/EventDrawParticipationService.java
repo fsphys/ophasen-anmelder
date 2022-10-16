@@ -11,6 +11,5 @@ import java.util.UUID;
 public interface EventDrawParticipationService extends CrudService<EventDrawParticipation, UUID> {
 
     void sendDrawRegistrationMail(EventDrawParticipation drawParticipation) throws UnsupportedEncodingException, MessagingException;
-
     void sendDrawUnRegistrationMail(EventDrawParticipationModel drawParticipation) throws UnsupportedEncodingException, MessagingException;
 }

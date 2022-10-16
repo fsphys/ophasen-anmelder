@@ -2,6 +2,7 @@ package edu.kit.physik.ophasenanmelder.services.impl;
 
 import edu.kit.physik.ophasenanmelder.converter.EventParticipationConverter;
 import edu.kit.physik.ophasenanmelder.dto.Event;
+import edu.kit.physik.ophasenanmelder.dto.EventDrawParticipation;
 import edu.kit.physik.ophasenanmelder.dto.EventParticipation;
 import edu.kit.physik.ophasenanmelder.dto.EventType;
 import edu.kit.physik.ophasenanmelder.exception.EventParticipationLimitExceededException;

@@ -20,7 +20,7 @@ public class EventDrawParticipation implements Validatable {
     private final UUID eventId;
     private final String surname;
     private final String givenName;
-    private final String mail;
+    private String mail;
     private final OffsetDateTime birthDate;
     private final String birthPlace;
 

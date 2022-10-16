@@ -3,7 +3,9 @@ package edu.kit.physik.ophasenanmelder.services.impl;
 import de.m4rc3l.nova.core.exception.ValidationException;
 import de.m4rc3l.nova.core.service.AbstractCommonIdCrudService;
 import edu.kit.physik.ophasenanmelder.converter.EventConverter;
+import edu.kit.physik.ophasenanmelder.converter.EventDrawParticipationConverter;
 import edu.kit.physik.ophasenanmelder.dto.Event;
+import edu.kit.physik.ophasenanmelder.dto.EventDrawParticipation;
 import edu.kit.physik.ophasenanmelder.model.EventModel;
 import edu.kit.physik.ophasenanmelder.repository.EventDrawParticipationRepository;
 import edu.kit.physik.ophasenanmelder.repository.EventParticipationRepository;
@@ -20,14 +22,17 @@ public class EventServiceImpl extends AbstractCommonIdCrudService<Event, UUID, E
 
     private final EventParticipationRepository eventParticipationRepository;
     private final EventDrawParticipationRepository eventDrawParticipationRepository;
+    private final EventDrawParticipationConverter eventDrawParticipationConverter;
 
     public EventServiceImpl(final EventRepository repository,
                             final EventConverter converter,
                             final EventParticipationRepository eventParticipationRepository,
-                            final EventDrawParticipationRepository eventDrawParticipationRepository) {
+                            final EventDrawParticipationRepository eventDrawParticipationRepository,
+                            final EventDrawParticipationConverter eventDrawParticipationConverter) {
         super("EVENT", repository, converter);
         this.eventParticipationRepository = eventParticipationRepository;
         this.eventDrawParticipationRepository = eventDrawParticipationRepository;
+        this.eventDrawParticipationConverter = eventDrawParticipationConverter;
     }
 
     @Override
@@ -50,6 +55,13 @@ public class EventServiceImpl extends AbstractCommonIdCrudService<Event, UUID, E
         return ((EventRepository) this.repository).findAllByEventTypeId(typeId)
                 .stream()
                 .map(this.converter::toDto)
+                .collect(Collectors.toSet());
+    }
+
+    @Override
+    public Set<EventDrawParticipation> getAllDrawParticipationByEvent(final Event event) {
+        return this.eventDrawParticipationRepository.findAllByEventId(event.getId())
+                .stream().map(this.eventDrawParticipationConverter::toDto)
                 .collect(Collectors.toSet());
     }
 }

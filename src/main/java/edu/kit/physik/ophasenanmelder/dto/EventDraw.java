@@ -3,6 +3,7 @@ package edu.kit.physik.ophasenanmelder.dto;
 import de.m4rc3l.nova.core.Validatable;
 import de.m4rc3l.nova.core.exception.ValidationException;
 import lombok.Data;
+import lombok.Setter;
 
 import java.time.OffsetDateTime;
 import java.util.UUID;
@@ -14,7 +15,7 @@ public class EventDraw implements Validatable {
 
     private final OffsetDateTime drawTime;
 
-    private final Boolean drawn;
+    private Boolean drawn;
 
     public EventDraw(final UUID id,
                      final OffsetDateTime drawTime,

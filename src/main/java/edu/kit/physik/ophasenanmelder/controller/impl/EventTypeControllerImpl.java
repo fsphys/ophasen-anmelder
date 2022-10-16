@@ -1,9 +1,10 @@
 package edu.kit.physik.ophasenanmelder.controller.impl;
 
+import de.m4rc3l.nova.core.controller.AbstractCrudController;
 import edu.kit.physik.ophasenanmelder.controller.EventTypeController;
 import edu.kit.physik.ophasenanmelder.dto.EventType;
 import edu.kit.physik.ophasenanmelder.services.EventTypeService;
-import de.m4rc3l.nova.core.controller.AbstractCrudController;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.UUID;
@@ -15,8 +16,9 @@ public class EventTypeControllerImpl extends AbstractCrudController<EventType, U
         super(service);
     }
 
+    @Transactional
     @Override
-    public void draw(UUID id) {
-
+    public void draw(final UUID id) {
+        ((EventTypeService) this.service).draw(id);
     }
 }

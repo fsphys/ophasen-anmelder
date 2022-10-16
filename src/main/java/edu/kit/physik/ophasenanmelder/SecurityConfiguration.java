@@ -40,6 +40,10 @@ public class SecurityConfiguration {
                 .pathMatchers(HttpMethod.DELETE, "/event/participation/**").permitAll()
                 .pathMatchers(HttpMethod.OPTIONS, "/event/participation/**").permitAll()
 
+                .pathMatchers(HttpMethod.POST, "/event/draw/participation").permitAll()
+                .pathMatchers(HttpMethod.DELETE, "/event/draw/participation/**").permitAll()
+                .pathMatchers(HttpMethod.OPTIONS, "/event/draw/participation/**").permitAll()
+
                 .pathMatchers("/event/**").authenticated()
 
                 .pathMatchers(HttpMethod.GET, "/actuator/health").permitAll()

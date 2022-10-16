@@ -11,6 +11,7 @@ import edu.kit.physik.ophasenanmelder.dto.EventDrawParticipation;
 import edu.kit.physik.ophasenanmelder.dto.EventType;
 import edu.kit.physik.ophasenanmelder.exception.EventRegistrationNotOpenException;
 import edu.kit.physik.ophasenanmelder.exception.EventTypeHasNoDrawException;
+import edu.kit.physik.ophasenanmelder.exception.MailAlreadyRegisteredException;
 import edu.kit.physik.ophasenanmelder.model.EventDrawParticipationModel;
 import edu.kit.physik.ophasenanmelder.model.EventParticipationModel;
 import edu.kit.physik.ophasenanmelder.repository.EventDrawParticipationRepository;
@@ -22,6 +23,7 @@ import edu.kit.physik.ophasenanmelder.services.EventTypeService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.mail.MailProperties;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.stereotype.Service;
 
 import javax.mail.Address;
 import javax.mail.Message;
@@ -32,8 +34,12 @@ import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
+@Service
 public class EventDrawParticipationServiceImpl extends AbstractCommonIdCrudService<EventDrawParticipation, UUID, EventDrawParticipationModel> implements EventDrawParticipationService {
 
     private static final String MAIL_REGISTRATION_TEXT = """
@@ -60,7 +66,6 @@ public class EventDrawParticipationServiceImpl extends AbstractCommonIdCrudServi
             """;
     private final EventService eventService;
     private final EventTypeService eventTypeService;
-    private final EventParticipationRepository eventParticipationRepository;
     private final EventDrawService eventDrawService;
     private final JavaMailSender mailSender;
     private final MailProperties mailProperties;
@@ -70,7 +75,6 @@ public class EventDrawParticipationServiceImpl extends AbstractCommonIdCrudServi
                                              final EventDrawParticipationConverter converter,
                                              final EventService eventService,
                                              final EventTypeService eventTypeService,
-                                             final EventParticipationRepository eventParticipationRepository,
                                              final EventDrawService eventDrawService,
                                              final JavaMailSender mailSender,
                                              final MailProperties mailProperties,
@@ -78,7 +82,6 @@ public class EventDrawParticipationServiceImpl extends AbstractCommonIdCrudServi
         super("EVENT_DRAW_PARTICIPATION", repository, converter);
         this.eventService = eventService;
         this.eventTypeService = eventTypeService;
-        this.eventParticipationRepository = eventParticipationRepository;
         this.eventDrawService = eventDrawService;
         this.mailSender = mailSender;
         this.mailProperties = mailProperties;
@@ -87,6 +90,7 @@ public class EventDrawParticipationServiceImpl extends AbstractCommonIdCrudServi
 
     @Override
     public EventDrawParticipation save(final EventDrawParticipation dto) {
+        dto.setMail(dto.getMail().toLowerCase().strip());
         ValidationUtils.validate(dto);
 
         final Event event = this.eventService.findById(dto.getEventId());
@@ -116,6 +120,10 @@ public class EventDrawParticipationServiceImpl extends AbstractCommonIdCrudServi
 
         if (now.isBefore(eventType.getRegistrationStartTime()) || now.isAfter(eventType.getRegistrationEndTime()))
             throw new EventRegistrationNotOpenException();
+
+        if (((EventDrawParticipationRepository) this.repository).existsByMailAndEventId(dto.getMail(), event.getId())) {
+            throw new MailAlreadyRegisteredException();
+        }
 
         final EventDrawParticipation eventDrawParticipation = this.converter.toDto(this.repository.save(this.converter.toModel(dto)));
         try {
@@ -150,7 +158,7 @@ public class EventDrawParticipationServiceImpl extends AbstractCommonIdCrudServi
 
         final Event event = this.eventService.findById(drawParticipation.getEventId());
         final EventType eventType = this.eventTypeService.findById(event.getEventTypeId());
-        final EventDraw eventDraw = this.eventDrawService.findById(event.getEventTypeId());
+        final EventDraw eventDraw = this.eventDrawService.findById(eventType.getEventDrawId());
         message.setText(String.format(
                 MAIL_REGISTRATION_TEXT,
                 drawParticipation.getGivenName(),
