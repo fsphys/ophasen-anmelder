@@ -1,13 +1,13 @@
 package edu.kit.physik.ophasenanmelder.converter;
 
+import de.m4rc3l.nova.core.Converter;
+import de.m4rc3l.nova.core.exception.NotFoundException;
 import edu.kit.physik.ophasenanmelder.dto.Event;
 import edu.kit.physik.ophasenanmelder.model.EventModel;
 import edu.kit.physik.ophasenanmelder.model.EventTypeModel;
 import edu.kit.physik.ophasenanmelder.repository.EventParticipationRepository;
 import edu.kit.physik.ophasenanmelder.repository.EventTypeRepository;
 import lombok.RequiredArgsConstructor;
-import de.m4rc3l.nova.core.Converter;
-import de.m4rc3l.nova.core.exception.NotFoundException;
 import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor

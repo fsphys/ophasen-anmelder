@@ -1,11 +1,10 @@
 package edu.kit.physik.ophasenanmelder.services;
 
-import edu.kit.physik.ophasenanmelder.dto.EventDrawParticipation;
+import de.m4rc3l.nova.core.service.CrudService;
 import edu.kit.physik.ophasenanmelder.dto.EventParticipation;
 import edu.kit.physik.ophasenanmelder.model.EventParticipationModel;
-import de.m4rc3l.nova.core.service.CrudService;
+import jakarta.mail.MessagingException;
 
-import javax.mail.MessagingException;
 import java.io.UnsupportedEncodingException;
 import java.util.UUID;
 

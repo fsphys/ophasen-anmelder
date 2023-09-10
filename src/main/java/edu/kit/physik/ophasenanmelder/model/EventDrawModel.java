@@ -1,14 +1,14 @@
 package edu.kit.physik.ophasenanmelder.model;
 
 import de.m4rc3l.nova.jpa.model.TableModelAutoId;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import java.time.OffsetDateTime;
 
 @Entity

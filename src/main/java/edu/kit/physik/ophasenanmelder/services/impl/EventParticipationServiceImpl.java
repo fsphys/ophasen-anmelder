@@ -1,5 +1,9 @@
 package edu.kit.physik.ophasenanmelder.services.impl;
 
+import de.m4rc3l.nova.core.exception.NotFoundException;
+import de.m4rc3l.nova.core.exception.ValidationException;
+import de.m4rc3l.nova.core.service.AbstractCommonIdCrudService;
+import de.m4rc3l.nova.core.utils.ValidationUtils;
 import edu.kit.physik.ophasenanmelder.converter.EventParticipationConverter;
 import edu.kit.physik.ophasenanmelder.dto.Event;
 import edu.kit.physik.ophasenanmelder.dto.EventDrawParticipation;
@@ -14,20 +18,16 @@ import edu.kit.physik.ophasenanmelder.repository.EventParticipationRepository;
 import edu.kit.physik.ophasenanmelder.services.EventParticipationService;
 import edu.kit.physik.ophasenanmelder.services.EventService;
 import edu.kit.physik.ophasenanmelder.services.EventTypeService;
-import de.m4rc3l.nova.core.exception.NotFoundException;
-import de.m4rc3l.nova.core.exception.ValidationException;
-import de.m4rc3l.nova.core.service.AbstractCommonIdCrudService;
-import de.m4rc3l.nova.core.utils.ValidationUtils;
+import jakarta.mail.Address;
+import jakarta.mail.Message;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.mail.MailProperties;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
-import javax.mail.Address;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.time.OffsetDateTime;

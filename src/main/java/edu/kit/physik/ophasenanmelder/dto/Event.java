@@ -1,10 +1,10 @@
 package edu.kit.physik.ophasenanmelder.dto;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import lombok.AllArgsConstructor;
-import lombok.Data;
 import de.m4rc3l.nova.core.Validatable;
 import de.m4rc3l.nova.core.exception.ValidationException;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
 import java.util.UUID;
 

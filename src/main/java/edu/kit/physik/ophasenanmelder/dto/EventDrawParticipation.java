@@ -26,11 +26,11 @@ public class EventDrawParticipation implements Validatable {
 
     @JsonCreator
     public EventDrawParticipation(final UUID eventId,
-                              final String surname,
-                              final String givenName,
-                              final String mail,
-                              final OffsetDateTime birthDate,
-                              final String birthPlace) {
+                                  final String surname,
+                                  final String givenName,
+                                  final String mail,
+                                  final OffsetDateTime birthDate,
+                                  final String birthPlace) {
         this.id = null;
         this.eventId = eventId;
         this.surname = surname;

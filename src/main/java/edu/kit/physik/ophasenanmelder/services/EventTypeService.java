@@ -4,7 +4,7 @@ import de.m4rc3l.nova.core.service.CrudService;
 import edu.kit.physik.ophasenanmelder.dto.EventParticipation;
 import edu.kit.physik.ophasenanmelder.dto.EventType;
 
-import javax.mail.MessagingException;
+import jakarta.mail.MessagingException;
 import java.io.UnsupportedEncodingException;
 import java.util.UUID;
 

@@ -4,6 +4,7 @@ import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableReactiveMethodSecurity;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
@@ -20,10 +21,9 @@ public class SecurityConfiguration {
     public SecurityWebFilterChain securityWebFilterChain(final ServerHttpSecurity http) {
         http.csrf(ServerHttpSecurity.CsrfSpec::disable);
         http.formLogin(ServerHttpSecurity.FormLoginSpec::disable);
-        http.httpBasic();
+        http.httpBasic(Customizer.withDefaults());
 
-        http.authorizeExchange()
-
+        http.authorizeExchange((exchanges) -> exchanges
                 .pathMatchers(HttpMethod.GET, "/", "/swagger-ui", "/webjars/**", "/v3/api-docs/**").permitAll()
                 .pathMatchers(HttpMethod.HEAD, "/", "/swagger-ui", "/webjars/**", "/v3/api-docs/**").permitAll()
                 .pathMatchers(HttpMethod.OPTIONS, "/", "/swagger-ui", "/webjars/**", "/v3/api-docs/**").permitAll()
@@ -48,10 +48,12 @@ public class SecurityConfiguration {
 
                 .pathMatchers(HttpMethod.GET, "/actuator/health").permitAll()
 
-                .anyExchange().authenticated();
+                .anyExchange().authenticated());
 
-        http.exceptionHandling()
-                .authenticationEntryPoint((exchange, ex) -> Mono.fromRunnable(() -> exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED)));
+        http.exceptionHandling(exceptionHandling ->
+                exceptionHandling.authenticationEntryPoint((exchange, ex) -> Mono.fromRunnable(() ->
+                        exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED))
+                ));
 
         return http.build();
     }
