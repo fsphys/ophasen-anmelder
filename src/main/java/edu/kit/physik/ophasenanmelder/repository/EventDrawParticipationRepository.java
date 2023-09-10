@@ -11,7 +11,10 @@ import java.util.UUID;
 public interface EventDrawParticipationRepository extends CrudRepository<EventDrawParticipationModel, UUID> {
 
     void deleteAllByEventId(UUID eventId);
+
     Set<EventDrawParticipationModel> findAllByEventId(UUID eventId);
+
     void deleteAllByMail(String mail);
+
     boolean existsByMailAndEventId(String mail, UUID eventId);
 }

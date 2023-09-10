@@ -14,7 +14,6 @@ import edu.kit.physik.ophasenanmelder.exception.EventTypeHasNoDrawException;
 import edu.kit.physik.ophasenanmelder.exception.MailAlreadyRegisteredException;
 import edu.kit.physik.ophasenanmelder.model.EventDrawParticipationModel;
 import edu.kit.physik.ophasenanmelder.repository.EventDrawParticipationRepository;
-import edu.kit.physik.ophasenanmelder.repository.EventParticipationRepository;
 import edu.kit.physik.ophasenanmelder.services.EventDrawParticipationService;
 import edu.kit.physik.ophasenanmelder.services.EventDrawService;
 import edu.kit.physik.ophasenanmelder.services.EventService;
@@ -33,10 +32,7 @@ import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Locale;
-import java.util.Set;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 public class EventDrawParticipationServiceImpl extends AbstractCommonIdCrudService<EventDrawParticipation, UUID, EventDrawParticipationModel> implements EventDrawParticipationService {

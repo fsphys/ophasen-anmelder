@@ -6,7 +6,6 @@ import de.m4rc3l.nova.core.service.AbstractCommonIdCrudService;
 import de.m4rc3l.nova.core.utils.ValidationUtils;
 import edu.kit.physik.ophasenanmelder.converter.EventParticipationConverter;
 import edu.kit.physik.ophasenanmelder.dto.Event;
-import edu.kit.physik.ophasenanmelder.dto.EventDrawParticipation;
 import edu.kit.physik.ophasenanmelder.dto.EventParticipation;
 import edu.kit.physik.ophasenanmelder.dto.EventType;
 import edu.kit.physik.ophasenanmelder.exception.EventParticipationLimitExceededException;

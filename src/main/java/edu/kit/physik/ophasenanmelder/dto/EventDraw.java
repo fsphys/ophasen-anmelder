@@ -3,7 +3,6 @@ package edu.kit.physik.ophasenanmelder.dto;
 import de.m4rc3l.nova.core.Validatable;
 import de.m4rc3l.nova.core.exception.ValidationException;
 import lombok.Data;
-import lombok.Setter;
 
 import java.time.OffsetDateTime;
 import java.util.UUID;

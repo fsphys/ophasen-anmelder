@@ -5,7 +5,11 @@ import de.m4rc3l.nova.core.service.AbstractCommonIdCrudService;
 import edu.kit.physik.ophasenanmelder.converter.EventDrawConverter;
 import edu.kit.physik.ophasenanmelder.converter.EventParticipationConverter;
 import edu.kit.physik.ophasenanmelder.converter.EventTypeConverter;
-import edu.kit.physik.ophasenanmelder.dto.*;
+import edu.kit.physik.ophasenanmelder.dto.Event;
+import edu.kit.physik.ophasenanmelder.dto.EventDraw;
+import edu.kit.physik.ophasenanmelder.dto.EventDrawParticipation;
+import edu.kit.physik.ophasenanmelder.dto.EventParticipation;
+import edu.kit.physik.ophasenanmelder.dto.EventType;
 import edu.kit.physik.ophasenanmelder.exception.EventDrawTooEarlyException;
 import edu.kit.physik.ophasenanmelder.exception.EventTypeAlreadyDrawnException;
 import edu.kit.physik.ophasenanmelder.exception.EventTypeHasNoDrawException;
@@ -27,12 +31,17 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.mail.MailProperties;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.time.OffsetDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
+import java.util.UUID;
 
 @Service
 public class EventTypeServiceImpl extends AbstractCommonIdCrudService<EventType, UUID, EventTypeModel> implements EventTypeService {
