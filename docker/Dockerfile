@@ -1,4 +1,4 @@
-ARG JAVA_VERSION=17
+ARG JAVA_VERSION=20
 
 FROM eclipse-temurin:${JAVA_VERSION}-jdk-jammy AS builder
 
