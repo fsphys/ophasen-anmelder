@@ -24,10 +24,6 @@ public class SecurityConfiguration {
         http.httpBasic(Customizer.withDefaults());
 
         http.authorizeExchange((exchanges) -> exchanges
-                .pathMatchers(HttpMethod.GET, "/", "/swagger-ui", "/webjars/**", "/v3/api-docs/**").permitAll()
-                .pathMatchers(HttpMethod.HEAD, "/", "/swagger-ui", "/webjars/**", "/v3/api-docs/**").permitAll()
-                .pathMatchers(HttpMethod.OPTIONS, "/", "/swagger-ui", "/webjars/**", "/v3/api-docs/**").permitAll()
-
                 .pathMatchers(HttpMethod.GET, "/event/participation").authenticated()
                 .pathMatchers(HttpMethod.GET, "/event/draw/participation").authenticated()
                 .pathMatchers(HttpMethod.GET, "/event/type/{id}/draw").authenticated()
