@@ -2,6 +2,7 @@ package edu.kit.physik.ophasenanmelder;
 
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.config.Customizer;
@@ -13,6 +14,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 import reactor.core.publisher.Mono;
 
+@Configuration
 @EnableWebFluxSecurity
 @EnableReactiveMethodSecurity
 public class SecurityConfiguration {
@@ -23,7 +25,7 @@ public class SecurityConfiguration {
         http.formLogin(ServerHttpSecurity.FormLoginSpec::disable);
         http.httpBasic(Customizer.withDefaults());
 
-        http.authorizeExchange((exchanges) -> exchanges
+        http.authorizeExchange(exchanges -> exchanges
                 .pathMatchers(HttpMethod.GET, "/event/participation").authenticated()
                 .pathMatchers(HttpMethod.GET, "/event/draw/participation").authenticated()
                 .pathMatchers(HttpMethod.GET, "/event/type/{id}/draw").authenticated()
@@ -44,7 +46,7 @@ public class SecurityConfiguration {
 
                 .pathMatchers(HttpMethod.GET, "/actuator/health").permitAll()
 
-                .anyExchange().authenticated());
+                .anyExchange().permitAll());
 
         http.exceptionHandling(exceptionHandling ->
                 exceptionHandling.authenticationEntryPoint((exchange, ex) -> Mono.fromRunnable(() ->
