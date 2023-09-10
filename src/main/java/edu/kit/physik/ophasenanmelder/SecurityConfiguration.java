@@ -46,7 +46,7 @@ public class SecurityConfiguration {
 
                 .pathMatchers(HttpMethod.GET, "/actuator/health").permitAll()
 
-                .anyExchange().permitAll());
+                .anyExchange().authenticated());
 
         http.exceptionHandling(exceptionHandling ->
                 exceptionHandling.authenticationEntryPoint((exchange, ex) -> Mono.fromRunnable(() ->
