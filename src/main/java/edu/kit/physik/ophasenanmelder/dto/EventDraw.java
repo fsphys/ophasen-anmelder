@@ -1,13 +1,16 @@
 package edu.kit.physik.ophasenanmelder.dto;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import de.m4rc3l.nova.core.Validatable;
 import de.m4rc3l.nova.core.exception.ValidationException;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
 @Data
+@AllArgsConstructor
 public class EventDraw implements Validatable {
 
     private final UUID id;
@@ -16,19 +19,16 @@ public class EventDraw implements Validatable {
 
     private Boolean drawn;
 
-    public EventDraw(final UUID id,
-                     final OffsetDateTime drawTime,
+    @JsonCreator
+    public EventDraw(final OffsetDateTime drawTime,
                      final Boolean drawn) {
-        this.id = id;
+        this.id = null;
         this.drawTime = drawTime;
         this.drawn = drawn;
     }
 
     @Override
     public void validate() throws ValidationException {
-        if (this.id == null)
-            throw new ValidationException("id", "NOT_NULL");
-
         if (this.drawn == null)
             throw new ValidationException("drawn", "NOT_NULL");
 
