@@ -127,7 +127,8 @@ public class EventTypeServiceImpl extends AbstractCommonIdCrudService<EventType,
         }
         final EventDraw eventDraw = this.eventDrawService.findById(eventType.getEventDrawId());
         final OffsetDateTime now = OffsetDateTime.now();
-        if (!eventDraw.getDrawTime().isAfter(now)) {
+
+        if (eventDraw.getDrawTime().isAfter(now)) {
             throw new EventDrawTooEarlyException();
         }
 
