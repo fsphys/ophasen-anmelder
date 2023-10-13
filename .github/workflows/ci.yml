@@ -7,7 +7,7 @@ on:
   pull_request:
 
 env:
-  JAVA_VERSION: 20
+  JAVA_VERSION: 21
   JAVA_DISTRO: temurin
   DOCKER_PLATFORMS: linux/amd64,linux/arm64/v8
 
