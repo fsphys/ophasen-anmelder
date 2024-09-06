@@ -52,7 +52,7 @@ COPY --from=extractor /src/spring-boot-loader/ /opt/ophasen-anmelder
 COPY --from=extractor /src/snapshot-dependencies/ /opt/ophasen-anmelder
 COPY --from=extractor /src/application/ /opt/ophasen-anmelder
 
-ENTRYPOINT ["java", "-cp", "/opt/ophasen-anmelder", "org.springframework.boot.loader.JarLauncher"]
+ENTRYPOINT ["java", "-cp", "/opt/ophasen-anmelder", "org.springframework.boot.loader.launch.JarLauncher"]
 
 HEALTHCHECK --start-period=10s --interval=30s --timeout=3s --retries=3 \
             CMD curl --silent --fail --request GET "http://localhost:${MANAGEMENT_PORT}/actuator/health" \
