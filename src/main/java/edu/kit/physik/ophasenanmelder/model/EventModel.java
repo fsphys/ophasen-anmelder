@@ -11,6 +11,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.OffsetDateTime;
+
 @Entity
 @Setter
 @Getter
@@ -34,4 +36,10 @@ public class EventModel extends TableModelAutoId {
 
     @Column(name = "needs_birth_information", nullable = false)
     private Boolean needsBirthInformation;
+
+    @Column(name = "meeting_time")
+    private OffsetDateTime meetingTime;
+
+    @Column(name = "meeting_point")
+    private String meetingPoint;
 }

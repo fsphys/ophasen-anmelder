@@ -6,6 +6,7 @@ import de.m4rc3l.nova.core.exception.ValidationException;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.time.OffsetDateTime;
 import java.util.UUID;
 
 @Data
@@ -19,13 +20,17 @@ public class Event implements Validatable {
     private final Integer maxParticipants;
     private final Integer freeSpots;
     private final Boolean needsBirthInformation;
+    private final OffsetDateTime meetingTime;
+    private final String meetingPoint;
 
     @JsonCreator
     public Event(final UUID eventTypeId,
                  final String name,
                  final String description,
                  final Integer maxParticipants,
-                 final Boolean needsBirthInformation) {
+                 final Boolean needsBirthInformation,
+                 final OffsetDateTime meetingTime,
+                 final String meetingPoint) {
         this.id = null;
         this.eventTypeId = eventTypeId;
         this.name = name;
@@ -33,6 +38,8 @@ public class Event implements Validatable {
         this.maxParticipants = maxParticipants;
         this.freeSpots = null;
         this.needsBirthInformation = needsBirthInformation;
+        this.meetingTime = meetingTime;
+        this.meetingPoint = meetingPoint;
     }
 
     @Override
